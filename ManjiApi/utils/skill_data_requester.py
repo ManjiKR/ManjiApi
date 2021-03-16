@@ -1,8 +1,7 @@
 import aiohttp
-from sanic.response import json
 
 
-class Requester:
+class YoshiRequester:
     def __init__(self):
         self.data_url = "https://raw.githubusercontent.com/ombe1229/yoshimitsu_frame_data/master/yoshimitsu_ko.json"
 

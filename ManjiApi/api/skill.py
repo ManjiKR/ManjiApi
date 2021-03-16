@@ -1,9 +1,9 @@
 from sanic import Blueprint
 from sanic.response import json
 
-from ManjiApi.utils.skill_data import Requester
+from ManjiApi.utils.skill_data_requester import YoshiRequester
 
-requester = Requester()
+requester = YoshiRequester()
 skill = Blueprint(__name__, url_prefix="/skill")
 
 

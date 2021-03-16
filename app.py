@@ -3,7 +3,7 @@ from sanic_openapi import swagger_blueprint
 from rich.logging import RichHandler
 import logging
 
-from ManjiApi.api.skill_info import skill
+from ManjiApi.api.skill import skill
 
 
 accessHandler = RichHandler(rich_tracebacks=True)
