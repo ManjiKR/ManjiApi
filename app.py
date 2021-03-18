@@ -4,6 +4,7 @@ from rich.logging import RichHandler
 import logging
 
 from ManjiApi.api.skill import skill
+from ManjiApi.api.gallery import gallery
 
 
 accessHandler = RichHandler(rich_tracebacks=True)
@@ -28,6 +29,7 @@ accessLogger.addHandler(accessHandler)
 
 app = Sanic(__name__, configure_logging=False)
 app.blueprint(skill)
+app.blueprint(gallery)
 app.blueprint(swagger_blueprint)
 
 app.config.FALLBACK_ERROR_FORMAT = "json"
