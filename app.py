@@ -38,4 +38,4 @@ app.config["API_TITLE"] = "Manji Api"
 app.config["API_LISENCE_NAME"] = "Apache 2.0"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=80, debug=True)
