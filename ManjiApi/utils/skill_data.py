@@ -7,8 +7,8 @@ class SkillData:
 
     @staticmethod
     async def request(url, **kwargs):
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get(url, **kwargs) as r:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, **kwargs) as r:
                 if r.status != 200:
                     return None
                 response = await r.json(content_type=None)
