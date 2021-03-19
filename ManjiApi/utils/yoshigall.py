@@ -1,5 +1,7 @@
 import aiohttp
 from bs4 import BeautifulSoup
+import bs4
+from sanic.response import json
 
 
 class YoshiGall:
@@ -12,6 +14,14 @@ class YoshiGall:
         )
         self.lists_url = "https://gall.dcinside.com/mgallery/board/lists/?id=yoshimitsu&search_head=10&page="
 
+    @staticmethod
+    def tag2str(tag: bs4.element.Tag):
+        result = ""
+        p = tag.findAll("p")
+        for i in p:
+            result += str(i)
+        return result
+
     async def get(self, url):
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.get(url) as r:
@@ -23,4 +33,19 @@ class YoshiGall:
     async def get_view_by_no(self, no: int):
         url = self.view_url + str(no)
         html = await self.get(url)
-        return html
+        soup = BeautifulSoup(html, "html.parser")
+
+        title = soup.find("meta", {"name": "title"})["content"]
+        author = soup.find("meta", {"name": "author"})["content"]
+        content_tag = soup.find("div", {"class": "write_div"})
+        content = self.tag2str(content_tag)
+
+        result = {
+            "status": 200,
+            "content": {
+                "title": title,
+                "author": author,
+                "content": content,
+            },
+        }
+        return result
