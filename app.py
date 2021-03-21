@@ -33,7 +33,7 @@ app.blueprint(gallery)
 app.blueprint(swagger_blueprint)
 
 app.config.FALLBACK_ERROR_FORMAT = "json"
-app.config["API_VERSION"] = "0.1.0"
+app.config["API_VERSION"] = "0.1.2"
 app.config["API_TITLE"] = "Manji Api"
 app.config["API_LISENCE_NAME"] = "Apache 2.0"
 
