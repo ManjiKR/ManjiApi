@@ -24,15 +24,6 @@ class YoshiGall:
             result += str(i)
         return result
 
-    @staticmethod
-    def tag2list(tag: bs4.element.Tag):
-        result = []
-        p = tag.findAll("p")
-        for i in p:
-            for c in i.contents:
-                result.append(c)
-        return result
-
     async def get(self, url):
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.get(url) as r:
@@ -49,8 +40,6 @@ class YoshiGall:
         title = soup.find("meta", {"name": "title"})["content"]
         author = soup.find("meta", {"name": "author"})["content"]
         content_tag = soup.find("div", {"class": "write_div"})
-        content_list = self.tag2list(content_tag)
-        print(content_list)
 
         result = {
             "status": 200,
