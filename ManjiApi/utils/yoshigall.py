@@ -33,7 +33,7 @@ class YoshiGall:
                 result.append(c)
         return result
 
-    async def get(self, url):
+    async def get(self, url: str):
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.get(url) as r:
                 if r.status != 200:
