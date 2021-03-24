@@ -15,22 +15,10 @@ class YoshiGall:
 
     @staticmethod
     def tag2str(tag: bs4.element.Tag):
-        """
-        지울거
-        """
         result = ""
         p = tag.findAll("p")
         for i in p:
             result += str(i)
-        return result
-
-    @staticmethod
-    def tag2list(tag: bs4.element.Tag):
-        result = []
-        p = tag.findAll("p")
-        for i in p:
-            for c in i.contents:
-                result.append(c)
         return result
 
     async def get(self, url: str):
@@ -49,15 +37,45 @@ class YoshiGall:
         title = soup.find("meta", {"name": "title"})["content"]
         author = soup.find("meta", {"name": "author"})["content"]
         content_tag = soup.find("div", {"class": "write_div"})
-        content_list = self.tag2list(content_tag)
-        print(content_list)
+        content = self.tag2str(content_tag)
 
         result = {
             "status": 200,
             "content": {
                 "title": title,
                 "author": author,
-                "content": self.tag2str(content_tag),
+                "content": content,
             },
         }
+        return result
+
+    async def get_lists_page(self, page: int):
+        url = self.lists_url + str(page)
+        html = await self.get(url)
+        soup = BeautifulSoup(html, "html.parser")
+
+        tbody = soup.find("tbody")
+        result = {"status": 200, "total": len(tbody.findAll("tr")), "lists": []}
+        for tr in tbody.findAll("tr"):
+            gall_tit = tr.find("td", {"class": "gall_tit ub-word"})
+            a = gall_tit.findAll("a")
+
+            post_id = tr.find("td", {"class": "gall_num"}).text
+            title = a[0].text
+            reply = "[0]" if len(a) == 1 else a[1].text
+            writer = tr.find("span", {"class": "nickname in"}).text
+            date = tr.find("td", {"class": "gall_date"}).text
+            views = tr.find("td", {"class": "gall_count"}).text
+            recommend = tr.find("td", {"class": "gall_recommend"}).text
+
+            post_info = {
+                "id": post_id,
+                "title": title,
+                "writer": writer,
+                "date": date,
+                "recommend": recommend,
+                "reply": reply,
+                "views": views,
+            }
+            result["lists"].append(post_info)
         return result
