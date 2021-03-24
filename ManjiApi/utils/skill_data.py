@@ -20,8 +20,7 @@ class SkillData:
 
     async def get_skill_by_num(self, num: int):
         resp = await self.get_all_skills()
-        try:
-            info = resp[num]
-        except IndexError:
+        if len(resp) < num + 1:
             return None
-        return info
+        else:
+            return resp[num]
