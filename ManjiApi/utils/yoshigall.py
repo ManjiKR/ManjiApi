@@ -21,6 +21,7 @@ class YoshiGall:
             result += str(i)
         return result
 
+
     async def get(self, url: str):
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.get(url) as r:
