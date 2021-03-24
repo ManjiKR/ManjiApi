@@ -6,7 +6,7 @@ class SkillData:
         self.data_url = "https://raw.githubusercontent.com/ombe1229/yoshimitsu_frame_data/master/yoshimitsu_ko.json"
 
     @staticmethod
-    async def get(url):
+    async def get(url: str):
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as r:
                 if r.status != 200:
