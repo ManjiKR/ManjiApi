@@ -57,7 +57,7 @@ class YoshiGall:
 
         tbody = soup.find("tbody")
         result = {"status": 200, "total": len(tbody.findAll("tr")), "lists": []}
-        for tr in tbody.findAll("tr"):
+        for tr in tbody.findAll("tr", {"class": "ub-content us-post"}):
             gall_tit = tr.find("td", {"class": "gall_tit ub-word"})
             a = gall_tit.findAll("a")
 
