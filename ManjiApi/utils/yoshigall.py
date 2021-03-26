@@ -14,11 +14,12 @@ class YoshiGall:
         self.lists_url = "https://gall.dcinside.com/mgallery/board/lists/?id=yoshimitsu&search_head=10&page="
 
     @staticmethod
-    def tag2str(tag: bs4.element.Tag):
-        result = ""
+    def tag2list(tag: bs4.element.Tag):
+        result = []
         p = tag.findAll("p")
         for i in p:
-            result += str(i)
+            for c in i.contents:
+                result.append(str(c))
         return result
 
     async def get(self, url: str):
@@ -37,7 +38,7 @@ class YoshiGall:
         title = soup.find("meta", {"name": "title"})["content"]
         author = soup.find("meta", {"name": "author"})["content"]
         content_tag = soup.find("div", {"class": "write_div"})
-        content = self.tag2str(content_tag)
+        content = self.tag2list(content_tag)
 
         result = {
             "status": 200,
