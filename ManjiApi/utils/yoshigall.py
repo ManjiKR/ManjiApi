@@ -4,14 +4,18 @@ import bs4
 
 
 class YoshiGall:
-    def __init__(self):
-        self.headers = {
+    @staticmethod
+    async def request(path: str, **kwargs):
+        headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"
         }
-        self.view_url = (
-            "https://gall.dcinside.com/mgallery/board/view/?id=yoshimitsu&no="
-        )
-        self.lists_url = "https://gall.dcinside.com/mgallery/board/lists/?id=yoshimitsu&search_head=10&page="
+        url = "https://gall.dcinside.com/mgallery/board" + path
+        async with aiohttp.ClientSession(headers=headers) as session:
+            async with session.get(url, **kwargs) as r:
+                if r.status != 200:
+                    return None
+                html = await r.text()
+                return html
 
     @staticmethod
     def tag2list(tag: bs4.element.Tag):
@@ -22,17 +26,17 @@ class YoshiGall:
                 result.append(str(c))
         return result
 
-    async def get(self, url: str):
-        async with aiohttp.ClientSession(headers=self.headers) as session:
-            async with session.get(url) as r:
-                if r.status != 200:
-                    return None
-                html = await r.text()
-                return html
+    async def request_view(self, no: int):
+        return await self.request("/view", params={"id": "yoshimitsu", "no": str(no)})
 
-    async def get_view_by_no(self, no: int):
-        url = self.view_url + str(no)
-        html = await self.get(url)
+    async def request_list(self, page: int):
+        return await self.request(
+            "/lists",
+            params={"id": "yoshimitsu", "search_head": "10", "page": str(page)},
+        )
+
+    async def post_view(self, no: int):
+        html = await self.request_view(no)
         soup = BeautifulSoup(html, "html.parser")
 
         title = soup.find("meta", {"name": "title"})["content"]
@@ -50,9 +54,8 @@ class YoshiGall:
         }
         return result
 
-    async def get_lists_page(self, page: int):
-        url = self.lists_url + str(page)
-        html = await self.get(url)
+    async def tt_list(self, page: int):
+        html = await self.request_list(page)
         soup = BeautifulSoup(html, "html.parser")
 
         tbody = soup.find("tbody")
