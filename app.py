@@ -11,7 +11,7 @@ app.blueprint(gallery)
 app.blueprint(swagger_blueprint)
 
 app.config.FALLBACK_ERROR_FORMAT = "json"
-app.config["API_VERSION"] = "0.2.0"
+app.config["API_VERSION"] = "0.2.1"
 app.config["API_TITLE"] = "Manji Api"
 
 if __name__ == "__main__":
