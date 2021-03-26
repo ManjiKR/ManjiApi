@@ -75,7 +75,7 @@ class YoshiGall:
                 "writer": writer,
                 "date": date,
                 "recommend": recommend,
-                "reply": reply,
+                "reply": reply[1:-1],
                 "views": views,
             }
             result["lists"].append(post_info)
