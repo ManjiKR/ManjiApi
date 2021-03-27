@@ -1,14 +1,10 @@
 from sanic import Sanic
-from sanic_openapi import swagger_blueprint
 
-from ManjiApi.api.skill import skill
-from ManjiApi.api.gallery import gallery
+from ManjiApi.api import bp_group
 
 
 app = Sanic(__name__, configure_logging=False)
-app.blueprint(skill)
-app.blueprint(gallery)
-app.blueprint(swagger_blueprint)
+app.blueprint(bp_group)
 
 app.config.FALLBACK_ERROR_FORMAT = "json"
 app.config["API_VERSION"] = "0.2.2"
