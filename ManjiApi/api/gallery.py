@@ -20,3 +20,9 @@ async def get_post_info(request, no):
 async def get_lists(request, page):
     resp = await yoshi_gall.tt_list(page)
     return json(resp)
+
+
+@gallery.get("/search")
+@doc.description("asdf")
+async def get_search(request):
+    print(request.args)

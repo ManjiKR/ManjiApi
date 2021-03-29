@@ -14,11 +14,11 @@ class YoshiGall:
             async with session.get(url, **kwargs) as r:
                 if r.status != 200:
                     return None
-                html = await r.text()
-                return html
+                return await r.text()
 
     @staticmethod
     def tag2list(tag: bs4.element.Tag):
+        # FIXME: use filter or map
         result = []
         p = tag.findAll("p")
         for i in p:
