@@ -98,3 +98,7 @@ class YoshiGall:
     async def tt_list(self, page: int):
         html = await self.request_list(page)
         return self.parse_lists(html)
+
+    async def search_list(self, keyword: str, search_mode: str, page: int):
+        html = await self.request_search(keyword, search_mode, page)
+        return self.parse_lists(html)
