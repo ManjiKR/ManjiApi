@@ -26,6 +26,36 @@ class YoshiGall:
                 result.append(str(c))
         return result
 
+    @staticmethod
+    def parse_lists(html: str):
+        soup = BeautifulSoup(html, "html.parser")
+
+        tbody = soup.find("tbody")
+        result = {"status": 200, "total": len(tbody.findAll("tr")), "lists": []}
+        for tr in tbody.findAll("tr", {"class": "ub-content us-post"}):
+            gall_tit = tr.find("td", {"class": "gall_tit ub-word"})
+            a = gall_tit.findAll("a")
+
+            post_id = tr.find("td", {"class": "gall_num"}).text
+            title = a[0].text
+            reply = "[0]" if len(a) == 1 else a[1].text
+            writer = tr.find("span", {"class": "nickname in"}).text
+            date = tr.find("td", {"class": "gall_date"}).text
+            views = tr.find("td", {"class": "gall_count"}).text
+            recommend = tr.find("td", {"class": "gall_recommend"}).text
+
+            post_info = {
+                "id": int(post_id),
+                "title": title,
+                "writer": writer,
+                "date": date,
+                "recommend": int(recommend),
+                "reply": int(reply[1:-1]),
+                "views": int(views),
+            }
+            result["lists"].append(post_info)
+        return result
+
     async def request_view(self, no: int):
         return await self.request("/view", params={"id": "yoshimitsu", "no": str(no)})
 
@@ -56,30 +86,4 @@ class YoshiGall:
 
     async def tt_list(self, page: int):
         html = await self.request_list(page)
-        soup = BeautifulSoup(html, "html.parser")
-
-        tbody = soup.find("tbody")
-        result = {"status": 200, "total": len(tbody.findAll("tr")), "lists": []}
-        for tr in tbody.findAll("tr", {"class": "ub-content us-post"}):
-            gall_tit = tr.find("td", {"class": "gall_tit ub-word"})
-            a = gall_tit.findAll("a")
-
-            post_id = tr.find("td", {"class": "gall_num"}).text
-            title = a[0].text
-            reply = "[0]" if len(a) == 1 else a[1].text
-            writer = tr.find("span", {"class": "nickname in"}).text
-            date = tr.find("td", {"class": "gall_date"}).text
-            views = tr.find("td", {"class": "gall_count"}).text
-            recommend = tr.find("td", {"class": "gall_recommend"}).text
-
-            post_info = {
-                "id": post_id,
-                "title": title,
-                "writer": writer,
-                "date": date,
-                "recommend": recommend,
-                "reply": reply[1:-1],
-                "views": views,
-            }
-            result["lists"].append(post_info)
-        return result
+        return self.parse_lists(html)
