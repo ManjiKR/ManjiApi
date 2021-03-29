@@ -65,6 +65,17 @@ class YoshiGall:
             params={"id": "yoshimitsu", "search_head": "10", "page": str(page)},
         )
 
+    async def request_search(self, keyword: str, search_mode: str, page: int):
+        return await self.request(
+            "/lists",
+            params={
+                "id": "yoshimitsu",
+                "s_type": search_mode,
+                "s_keyword": keyword,
+                "page": str(page),
+            },
+        )
+
     async def post_view(self, no: int):
         html = await self.request_view(no)
         soup = BeautifulSoup(html, "html.parser")
