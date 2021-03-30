@@ -39,7 +39,7 @@ class YoshiGall:
             post_id = tr.find("td", {"class": "gall_num"}).text
             title = a[0].text
             reply = "[0]" if len(a) == 1 else a[1].text
-            writer = tr.find("span", {"class": "nickname in"}).text
+            writer = tr.find("span", {"class": "nickname"}).text
             date = tr.find("td", {"class": "gall_date"}).text
             views = tr.find("td", {"class": "gall_count"}).text
             recommend = tr.find("td", {"class": "gall_recommend"}).text
@@ -100,5 +100,9 @@ class YoshiGall:
         return self.parse_lists(html)
 
     async def search_list(self, keyword: str, search_mode: str, page: int):
+        if not search_mode:
+            search_mode = "search_subject_memo"
+        if not page:
+            page = 1
         html = await self.request_search(keyword, search_mode, page)
         return self.parse_lists(html)

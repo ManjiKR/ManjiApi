@@ -21,4 +21,14 @@ async def get_lists(request, page):
 
 @gallery.get("/search")
 async def get_search(request):
-    print(request.args)
+    # search_subject_memo
+    # search_subject
+    # search_memo
+    # search_name
+    args = request.args
+    if not args.get("keyword"):
+        return json({"status": 400, "message": "no keyword"})
+    resp = await yoshi_gall.search_list(
+        args.get("keyword"), args.get("search_mode"), args.get("page")
+    )
+    return json(resp)
