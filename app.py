@@ -7,7 +7,7 @@ app = Sanic(__name__, configure_logging=False)
 app.blueprint(bp_group)
 
 app.config.FALLBACK_ERROR_FORMAT = "json"
-app.config["API_VERSION"] = "0.2.3"
+app.config["API_VERSION"] = "0.3.4"
 app.config["API_TITLE"] = "Manji Api"
 
 if __name__ == "__main__":
