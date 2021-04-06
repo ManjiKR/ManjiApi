@@ -18,12 +18,9 @@ class YoshiGall:
 
     @staticmethod
     def tag2list(tag: bs4.element.Tag):
-        # FIXME: use filter or map
-        result = []
         p = tag.findAll("p")
-        for i in p:
-            for c in i.contents:
-                result.append(str(c))
+        result = list(map(lambda i: i.contents, p))
+
         return result
 
     @staticmethod

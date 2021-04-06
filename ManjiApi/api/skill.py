@@ -10,7 +10,7 @@ skill = Blueprint(__name__, url_prefix="/skill")
 @skill.get("/all")
 async def all_skills(request):
     resp = await skill_data.get_all_skills()
-    return json(resp, 200)
+    return json({"status": 200, "skill_list": resp}, 200)
 
 
 @skill.get("/<num:int>")
@@ -19,4 +19,4 @@ async def get_skill(request, num):
     if resp:
         return json({"status": 200, "info": resp}, 200)
     else:
-        return json({"status": 400, "message": "number is too big (max is 411)"}, 400)
+        return json({"status": 400, "info": "number is too big (max is 411)"}, 400)
