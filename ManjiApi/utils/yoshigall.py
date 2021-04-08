@@ -1,3 +1,4 @@
+import json
 import aiohttp
 from bs4 import BeautifulSoup, element
 import bs4
@@ -75,6 +76,11 @@ class YoshiGall:
 
     async def post_view(self, no: int):
         html = await self.request_view(no)
+        if not html:
+            return {
+                "status": 404,
+                "message": f"cannot find https://gall.dcinside.com/mgallery/board/view/?id=yoshimitsu&no={no}",
+            }
         soup = BeautifulSoup(html, "html.parser")
 
         title = soup.find("meta", {"name": "title"})["content"]
