@@ -19,7 +19,6 @@ class YoshiGall:
     @staticmethod
     def tag2list(tag: bs4.element.Tag):
         result = list(map(lambda i: str(i.contents[0]), tag.findAll("p")))
-        print(result)
         return result
 
     @staticmethod
