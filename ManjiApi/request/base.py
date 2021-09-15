@@ -13,6 +13,10 @@ class BaseRequest:
     def __init__(self, session: Optional[ClientSession] = None) -> None:
         self.session = session
 
+    async def close(self) -> None:
+        if self.session:
+            await self.session.close()
+
     @property
     def user_agent(self) -> str:
         return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
