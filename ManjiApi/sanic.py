@@ -1,5 +1,8 @@
-from sanic.app import Sanic
+from typing import Any
 from types import SimpleNamespace
+
+from sanic.app import Sanic
+from sanic.request import Request
 
 from ManjiApi.request.base import BaseRequest
 from ManjiApi.request.yoshimitsu_gallery import YoshiGallRequest
@@ -14,3 +17,9 @@ class ManjiApiContext(SimpleNamespace):
 
 class ManjiApi(Sanic):
     ctx: ManjiApiContext
+
+
+class ManjiApiRequest(Request):
+    app: ManjiApi
+    args: property
+    json: Any
