@@ -1,6 +1,6 @@
 from typing import Any, Optional, Union
 from aiohttp.client import ClientSession
-from bs4 import BeautifulSoup, element
+from bs4 import BeautifulSoup
 from ManjiApi.request.base import BaseRequest
 
 
@@ -22,11 +22,6 @@ class YoshiGallRequest(BaseRequest):
         yoshigall_request = cls(session)
         yoshigall_request.headers.update(yoshigall_request.headers)
         return yoshigall_request
-
-    @staticmethod
-    def tag2list(tag: element.Tag):
-        result = list(map(lambda i: str(i.contents[0]), tag.findAll("p")))
-        return result
 
     @staticmethod
     def parse_list(
@@ -60,13 +55,14 @@ class YoshiGallRequest(BaseRequest):
             result["lists"].append(post_info)
         return result
 
-    def parse_post(self, html: str) -> dict[str, str]:
+    @staticmethod
+    def parse_post(html: str) -> dict[str, str]:
         soup = BeautifulSoup(html, "html.parser")
 
         title = soup.find("meta", {"name": "title"})["content"]
         author = soup.find("meta", {"name": "author"})["content"]
         content_tag = soup.find("div", {"class": "write_div"})
-        content = self.tag2list(content_tag)
+        content = list(map(lambda i: str(i.contents[0]), content_tag.findAll("p")))
 
         return {
             "title": title,
