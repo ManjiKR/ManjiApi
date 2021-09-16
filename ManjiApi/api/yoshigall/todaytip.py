@@ -12,3 +12,6 @@ class YoshiGallTodayTipView(HTTPMethodView):
         if todaytip := await request.app.ctx.yoshigall_request.get_todaytip(page):
             return json({"status": 200, **todaytip})
         return json({"h": 0})
+
+
+yoshigall_todaytip.add_route(YoshiGallTodayTipView.as_view(), "/<page:int>")
