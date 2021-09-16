@@ -1,13 +1,18 @@
 from ManjiApi.sanic import ManjiApi
+
+from ManjiApi.request.base import BaseRequest
 from ManjiApi.request.frame_data import FrameDataRequest
 from ManjiApi.request.yoshimitsu_gallery import YoshiGallRequest
+
+from ManjiApi.api import api_endpoint
+
 from aiohttp.client import ClientSession
-from ManjiApi.request.base import BaseRequest
 from asyncio.events import AbstractEventLoop
 from sanic.app import Sanic
 
 
 manjiapi = Sanic("ManjiApi")
+manjiapi.blueprint(api_endpoint)
 
 
 @manjiapi.main_process_start
