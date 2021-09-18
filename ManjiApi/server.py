@@ -18,6 +18,7 @@ manjiapi.blueprint(api_endpoint)
 
 @manjiapi.main_process_start
 async def start(manjiapi: ManjiApi, loop: AbstractEventLoop) -> None:
+    manjiapi.config.FALLBACK_ERROR_FORMAT = "json"
     manjiapi.ctx.base_request = BaseRequest(ClientSession())
     manjiapi.ctx.yoshigall_request = await YoshiGallRequest.setup()
     manjiapi.ctx.framedata_request = await FrameDataRequest.setup()
