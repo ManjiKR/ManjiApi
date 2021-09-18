@@ -4,7 +4,7 @@ from sanic.blueprints import Blueprint
 from sanic.response import HTTPResponse, json
 
 
-skill_all_skills = Blueprint("skill_skills", url_prefix="/skills")
+skill_all_skills = Blueprint("skill_all_skills", url_prefix="/skills")
 
 
 class SkillAllSkillsView(HTTPMethodView):
