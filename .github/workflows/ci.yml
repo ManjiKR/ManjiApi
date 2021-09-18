@@ -23,14 +23,14 @@ jobs:
         python -m pip install -U pip
         pip install black
     - name: Checking style
-      run: black ./Manjiapi --check
+      run: black ./ManjiApi --check
 
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v2
       with:
         python-version: 3.9
     - name: Install dependencies
