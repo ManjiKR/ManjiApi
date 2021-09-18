@@ -10,7 +10,7 @@ skill_all_skills = Blueprint("skill_all_skills", url_prefix="/all_skills")
 class SkillAllSkillsView(HTTPMethodView):
     async def get(self, request: ManjiApiRequest) -> HTTPResponse:
         if skill_list := await request.app.ctx.framedata_request.get_skill_list():
-            return json({"status": 200, **skill_list})
+            return json({"status": 200, "skills": skill_list})
         return json({"h": 0})
 
 
