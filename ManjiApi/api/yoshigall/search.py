@@ -1,5 +1,4 @@
 from ManjiApi.sanic import ManjiApiRequest
-
 from sanic.views import HTTPMethodView
 from sanic.blueprints import Blueprint
 from sanic.response import HTTPResponse, json
@@ -17,7 +16,7 @@ class YoshiGallSearchView(HTTPMethodView):
             keyword, search_mode, page
         ):  # TODO: Optional
             return json({"status": 200, **search_result})
-        return json({"h", 0})
+        return request.app.ctx.response.not_found
 
 
 yoshigall_search.add_route(YoshiGallSearchView.as_view(), "")

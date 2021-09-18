@@ -11,7 +11,7 @@ class YoshiGallPostView(HTTPMethodView):
     async def get(self, request: ManjiApiRequest, post_id: int) -> HTTPResponse:
         if post_info := await request.app.ctx.yoshigall_request.get_post(post_id):
             return json({"status": 200, **post_info})
-        return json({"h": 0})
+        return request.app.ctx.response.not_found
 
 
 yoshigall_post.add_route(YoshiGallPostView.as_view(), "/<post_id:int>")
