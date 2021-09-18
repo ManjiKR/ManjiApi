@@ -1,3 +1,4 @@
+from ManjiApi.response import Response
 from ManjiApi.sanic import ManjiApi
 
 from ManjiApi.request.base import BaseRequest
@@ -20,6 +21,7 @@ async def start(manjiapi: ManjiApi, loop: AbstractEventLoop) -> None:
     manjiapi.ctx.base_request = BaseRequest(ClientSession())
     manjiapi.ctx.yoshigall_request = await YoshiGallRequest.setup()
     manjiapi.ctx.framedata_request = await FrameDataRequest.setup()
+    manjiapi.ctx.response = Response
 
 
 @manjiapi.main_process_stop
