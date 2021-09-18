@@ -11,7 +11,7 @@ class YoshiGallTodayTipView(HTTPMethodView):
     async def get(self, request: ManjiApiRequest, page: int) -> HTTPResponse:
         if todaytip := await request.app.ctx.yoshigall_request.get_todaytip(page):
             return json({"status": 200, **todaytip})
-        return json({"h": 0})
+        return request.app.ctx.response.not_found
 
 
 yoshigall_todaytip.add_route(YoshiGallTodayTipView.as_view(), "/<page:int>")

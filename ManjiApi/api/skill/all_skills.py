@@ -11,7 +11,7 @@ class SkillAllSkillsView(HTTPMethodView):
     async def get(self, request: ManjiApiRequest) -> HTTPResponse:
         if skill_list := await request.app.ctx.framedata_request.get_skill_list():
             return json({"status": 200, "skills": skill_list})
-        return json({"h": 0})
+        return request.app.ctx.response.not_found
 
 
 skill_all_skills.add_route(SkillAllSkillsView.as_view(), "")
