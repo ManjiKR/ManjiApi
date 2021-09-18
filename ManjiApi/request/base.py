@@ -29,7 +29,10 @@ class BaseRequest:
         **kwargs: Any,
     ) -> Any:
         async with self.session.request(method, url, **kwargs) as response:
-            return Response(response.status, await getattr(response, return_method)())
+            return Response(
+                response.status,
+                await getattr(response, return_method)(content_type=None),
+            )
 
     async def get(
         self, url: str, return_method: Literal["json", "text"], **kwargs
