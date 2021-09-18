@@ -52,7 +52,7 @@ class YoshiGallRequest(BaseRequest):
                 "reply": int(reply[1:-1]),
                 "views": int(views),
             }
-            result["lists"].append(post_info)
+            result["post_list"].append(post_info)
         return result
 
     @staticmethod

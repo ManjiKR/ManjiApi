@@ -31,7 +31,9 @@ class BaseRequest:
         async with self.session.request(method, url, **kwargs) as response:
             return Response(
                 response.status,
-                await getattr(response, return_method)(content_type=None),
+                await response.json(content_type=None)
+                if return_method == "json"
+                else await response.text(),
             )
 
     async def get(
