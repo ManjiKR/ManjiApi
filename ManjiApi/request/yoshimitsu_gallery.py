@@ -97,9 +97,13 @@ class YoshiGallRequest(BaseRequest):
     async def get_search(
         self,
         keyword: str,
-        search_mode: Optional[str] = "search_subject_memo",
-        page: Optional[int] = 1,
+        search_mode: str,
+        page: int,
     ) -> Optional[dict[str, Union[int, list[dict[str, Union[str, int]]]]]]:
+        if not search_mode:
+            search_mode = "search_subject_memo"
+        if not page:
+            page = 1
         resp = await self.get(
             self.url + "/lists",
             "text",
@@ -109,6 +113,7 @@ class YoshiGallRequest(BaseRequest):
                 "s_keyword": keyword,
                 "page": str(page),
             },
+            headers=self.headers,
         )
         if resp.status != 200:
             return None
